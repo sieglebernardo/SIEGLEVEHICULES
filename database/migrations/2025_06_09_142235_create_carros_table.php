@@ -6,11 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCarrosTable extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up()
     {
         Schema::create('carros', function (Blueprint $table) {
             $table->id('id_carro');
-            $table->unsignedBigInteger('id_compra');
+            // Chave estrangeira id_compra, com o mesmo tipo da chave primária em 'compras'
+            $table->unsignedBigInteger('id_compra'); 
             $table->string('marca');
             $table->string('modelo');
             $table->year('ano');
@@ -23,12 +27,17 @@ class CreateCarrosTable extends Migration
             $table->string('tipo_combustivel');
             $table->timestamps();
 
-            $table->foreign('id_compra')->references('id_compra')->on('compra')->onDelete('cascade');
+            // CORRIGIDO: Referencia a tabela 'compras' (plural)
+            $table->foreign('id_compra')->references('id_compra')->on('compras')->onDelete('cascade');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down()
     {
-        Schema::dropIfExists('carro');
+        // CORRIGIDO: Dropa a tabela 'carros' (plural)
+        Schema::dropIfExists('carros');
     }
 }

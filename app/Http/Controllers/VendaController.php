@@ -29,7 +29,6 @@ class VendaController extends Controller
     {
         $venda = Venda::create($request->validated());
 
-        // Atualizar status do carro para 'Vendido'
         $carro = Carro::find($request->id_carro);
         $carro->status = 'Vendido';
         $carro->save();
@@ -37,34 +36,28 @@ class VendaController extends Controller
         return redirect()->route('vendas.index')->with('success', 'Venda criada com sucesso!');
     }
 
-    public function show($id_venda)
+    public function show(Venda $venda)
     {
-        $venda = Venda::with(['cliente', 'vendedor', 'carro'])->findOrFail($id_venda);
+        $venda->load('cliente', 'vendedor', 'carro');
         return view('vendas.show', compact('venda'));
     }
 
-    public function edit($id_venda)
+    public function edit(Venda $venda)
     {
-        $venda = Venda::findOrFail($id_venda);
         $clientes = Cliente::all();
         $vendedores = Vendedor::all();
         $carros = Carro::all();
         return view('vendas.edit', compact('venda', 'clientes', 'vendedores', 'carros'));
     }
 
-    public function update(VendaRequest $request, $id_venda)
+    public function update(VendaRequest $request, Venda $venda)
     {
-        $venda = Venda::findOrFail($id_venda);
-        
-        // Se id_carro for alterado, atualizar status dos carros corretamente
         if ($venda->id_carro != $request->id_carro) {
-            // Liberar o carro antigo
             $carroAntigo = Carro::find($venda->id_carro);
             if ($carroAntigo) {
                 $carroAntigo->status = 'Disponível';
                 $carroAntigo->save();
             }
-            // Reservar o novo carro
             $carroNovo = Carro::find($request->id_carro);
             if ($carroNovo) {
                 $carroNovo->status = 'Vendido';
@@ -77,11 +70,8 @@ class VendaController extends Controller
         return redirect()->route('vendas.index')->with('success', 'Venda atualizada com sucesso!');
     }
 
-    public function destroy($id_venda)
+    public function destroy(Venda $venda)
     {
-        $venda = Venda::findOrFail($id_venda);
-
-        // Liberar o carro ao deletar a venda
         $carro = Carro::find($venda->id_carro);
         if ($carro) {
             $carro->status = 'Disponível';

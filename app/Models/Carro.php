@@ -9,7 +9,7 @@ class Carro extends Model
 {
     use HasFactory;
 
-    protected $table = 'carro';
+    protected $table = 'carros';
     protected $primaryKey = 'id_carro';
 
     protected $fillable = [
@@ -26,7 +26,6 @@ class Carro extends Model
         'tipo_combustivel',
     ];
 
-    // Relacionamentos
     public function compra()
     {
         return $this->belongsTo(Compra::class, 'id_compra', 'id_compra');

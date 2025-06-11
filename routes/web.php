@@ -10,7 +10,7 @@ use App\Http\Controllers\VendaController;
 Route::resource('vendas', VendaController::class);
 Route::resource('carros', CarroController::class);
 Route::resource('compras', CompraController::class);
-Route::resource('vendedores', VendedorController::class);
+Route::resource('vendedores', VendedorController::class)->parameters(['vendedores' => 'vendedor',]);
 Route::resource('clientes', ClienteController::class);
 
 Route::get('/', function () {

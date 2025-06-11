@@ -15,7 +15,7 @@ class VendaRequest extends FormRequest
     {
         return [
             'id_cliente' => 'required|exists:clientes,id_cliente',
-            'id_vendedor' => 'required|exists:vendedors,id_vendedor',
+            'id_vendedor' => 'required|exists:vendedores,id_vendedor',
             'id_carro' => 'required|exists:carros,id_carro',
             'data_venda' => 'required|date',
             'valor_pago' => 'required|numeric|min:0',

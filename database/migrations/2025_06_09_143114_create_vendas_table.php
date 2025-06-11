@@ -27,7 +27,7 @@ class CreateVendasTable extends Migration
             $table->timestamps();
 
             $table->foreign('id_cliente')->references('id_cliente')->on('clientes')->onDelete('cascade');
-            $table->foreign('id_vendedor')->references('id_vendedor')->on('vendedors')->onDelete('cascade');
+            $table->foreign('id_vendedor')->references('id_vendedor')->on('vendedores')->onDelete('cascade');
             $table->foreign('id_carro')->references('id_carro')->on('carros')->onDelete('cascade');
         });
     }
